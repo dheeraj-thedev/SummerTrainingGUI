@@ -198,6 +198,12 @@ public class Signup {
 			pnlButtons.setLayout(new GridLayout(0, 4, 0, 0));
 			
 			JButton btnSave = new JButton("Save");
+			btnSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					
+				}
+			});
 			pnlButtons.add(btnSave);
 			
 			JButton btnEdit = new JButton("Edit");

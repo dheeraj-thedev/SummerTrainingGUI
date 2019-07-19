@@ -5,16 +5,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.UIManager;
+
+import com.trainingbasket.beans.User;
+import com.trainingbasket.dao.UserDAO;
+
 import javax.swing.JCheckBox;
 import javax.swing.JTextPane;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JPasswordField;
 import javax.swing.JPanel;
@@ -57,7 +64,7 @@ public class LoginPane {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\dheeraj-thedev\\eclipse-workspace\\EMS\\src\\tbLogo.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\dheeraj-thedev\\git\\repository\\EMS\\src\\tbLogo.png"));
 		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		frame.getContentPane().setForeground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
@@ -94,11 +101,40 @@ public class LoginPane {
 		panel.add(btnClear);
 		
 		JButton btnNewButton = new JButton("Login");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					UserDAO dao = new UserDAO();
+					User user = new User();
+					user.setUssername(textField.getText());
+					user.setPassword(passwordField.getText());
+					if( dao.getUserLogin(user)) {
+						Landing landing = new Landing();
+						landing.frame.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog(btnNewButton, "Issue  : "+ "User was not found");
+					}
+					
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					
+					JOptionPane.showMessageDialog(btnNewButton, "Issue  : "+ e1.getMessage());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(btnNewButton, "Issue  : "+ e1.getMessage());
+				}
+				
+				
+			}
+		});
 		panel.add(btnNewButton);
 		
 		JLabel lblFdsf = new JLabel("");
 		lblFdsf.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFdsf.setIcon(new ImageIcon("C:\\Users\\dheeraj-thedev\\eclipse-workspace\\EMS\\src\\lock.png"));
+		lblFdsf.setIcon(new ImageIcon("C:\\Users\\dheeraj-thedev\\git\\repository\\EMS\\src\\lock.png"));
 		lblFdsf.setBounds(10, 11, 208, 187);
 		frame.getContentPane().add(lblFdsf);
 		frame.setBounds(100, 100, 547, 250);
